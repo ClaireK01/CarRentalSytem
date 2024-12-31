@@ -4,12 +4,15 @@
 #include <vector>
 #include <conio.h> 
 #include <exception>
+#include "SqliteDatabase.h"
 
 
 // TODO : 
-// - page de login
-// - page de list
+// - finir mettre cUser en valeur static
+// - finir option delete - visible sur la page, mode delete si selectionner (selection puis suppression)
+// - enlever duplicata display options
 // - ajout et suppresion des voitures
+// - ajouter option deconnexion/retour 
 
 class Car {
 	private:
@@ -18,24 +21,12 @@ class Car {
 		int year, uuid;
 
 	public :
-		static std::vector<Car> list;
 		static int id;
 
 		//constructor
-		Car(std::string& a, double& b, int& c) : modele(a), price(b), year(c) {
-			Car::list.push_back(*this);
+		Car(std::string m, double p, int y) : modele(m), price(p), year(y) {
 			Car::id = Car::id + 1;
 			uuid = id;
-		}
-
-
-		//copy assignment
-		Car& operator=(Car other)
-		{
-			Car::list.push_back(*this);
-			Car::id++;
-			other.uuid = id;
-			return *this;
 		}
 
 		void set_year(int& y) {year = y;}
@@ -48,17 +39,10 @@ class Car {
 
 		void displayLine(int idx) {
 			std::cout << "----------------------------------------------------------------------------------------" << std::endl;
-			std::cout << "| " << idx << " | " << modele << "   /   " << price << "€  /  " << year << "   " << std::endl;
+			std::cout << "| " << idx << " | " << modele << "   /   " << price << " euros  /  " << year << "   " << std::endl;
 		}
 		//destructor
-		~Car() {
-			for (int i = 0; i < Car::list.size(); i++) {
-				if (Car::list[i].get_uuid() == get_uuid()) {
-					Car::list.erase(Car::list.begin() + i); //voir utilisation std::find()
-					break; 
-				}
-			}
-		}
+		~Car() {}
 };
 
 class User {
@@ -78,16 +62,7 @@ class User {
 			uuid = id;
 		};
 
-		//copy assignment
-		User& operator= (User other){ 
-			username = other.username;
-			password = other.password;
-			uuid = other.uuid;
-			type = other.type;
-			connected = other.connected;
-			return *this; 
-		}
-		static std::vector<User*> list;  // Du le transformer en tableau de pointage plutot qu'objet pour eviter le crash...
+		static std::vector<User*> list;  // Du transformer en tableau de pointage plutot qu'objet pour eviter le crash...
 		static int id;
 		bool checkPassword(std::string input) { return input == password; }
 		int get_uuid() { return uuid; }
@@ -120,37 +95,35 @@ class User {
 User checkAuth();
 int displayMenu(User u);
 void list();
+void displayOptions(std::vector<std::string> array);
+void displayMenuAdministration();
 // les variable static doivent etre defini en dehors du code OU initiliser avec le keyword inline
 std::vector<User*> User::list;
-std::vector<Car> Car::list;
 int Car::id = 0;
 int User::id = 0;
+static User cUser;
+//Faire une valeur static currentUser
 
 int main() {
 	User u1 ("Admin", "admin", 1);
 	User u2 ("User", "user", 2);
+
 	User u = checkAuth();
-	int choice;
-
-	choice = displayMenu(u);
-
-	if (choice == 1) {
-		//list();
-		std::cout << "list";
-	} else if (choice == 2) {
-		std::cout << "Administration";
-	}
+	displayMenu(u);
 
 	return 0;
 }
 
 void list() {
+
 	system("cls");
-	std::cout << "Bonjour, Voici les modèles disponibles : " << std::endl << std::endl;
-	int i = 0;
-	for (Car c : Car::list) {
-		c.displayLine(i);
-		i++;
+	std::cout << "Bonjour, Voici les modeles disponibles : " << std::endl << std::endl;
+	int i = 1;
+
+	if (cUser.getType() == 1) {
+		std::cout << std::endl << std::endl;
+		std::cout << "X / Supprimer un modèle";
+		
 	}
 }
 
@@ -158,29 +131,77 @@ int displayMenu(User u) {
 	std::string input;
 	int choice;
 	bool next = false;
-
-	std::cout << "Bonjour !" << std::endl;
+	std::vector<std::string> options = { "Voir les voitures" };
+	if (u.getType() == 1) {
+		options.push_back("Administration");
+	}
 
 	do {
+		//duplicata de code
 		system("cls");
-		std::cout << "1 : Voir les voitures disponibles " << std::endl;
-		if (u.getType() == 1) {
-			std::cout << "2 : Admin" << std::endl;
-		}
-
+		displayOptions(options);
 		std::getline(std::cin, input);
 		std::stringstream(input) >> choice;
 
-		if (choice != 1 && (choice != 2 || (choice == 2 && u.getType() == 2))) {
+		if ((choice < options.size() || choice > options.size() || (choice == 2 && u.getType() == 2) ) && !(choice == 999 && u.getType() == 1) ) {
 			std::cout << "Choix non valide.";
-		}
-		else {
+		} else {
 			next = true;
 		}
 	} while (!next);
 
 
-	return choice;
+	if (choice == 1) {
+		list();
+	}else if (choice == 2) {
+		displayMenuAdministration();
+		/*std::cout << "Administration";*/
+	}
+	else if (choice == 999) {
+		menu();
+	}
+
+
+	return 0;
+
+}
+
+void displayMenuAdministration() {
+	std::string input;
+	int choice;
+	bool next = false;
+	std::vector<std::string> options = { "Ajouter une voiture", "Supprimer une voiture" };
+
+	do {
+		system("cls");
+		displayOptions(options);
+		std::getline(std::cin, input);
+		std::stringstream(input) >> choice;
+
+		if (choice < options.size() || choice > options.size()) {
+			std::cout << "Choix non valide.";
+		}else {
+			next = true;
+		}
+	} while (!next);
+
+
+	if (choice == 1) {
+		//lancer formulaire
+	}else if(choice == 2) {
+		list();
+	}
+
+}
+
+void displayOptions(std::vector<std::string> array) {
+
+	std::cout << "Bonjour !" << std::endl << std::endl;
+
+	for (int i = 0; i < array.size(); i++)
+	{
+		std::cout << i + 1 << " : " << array[i] << std::endl;
+	}
 
 }
 
@@ -194,7 +215,7 @@ User checkAuth() {
 		system("cls");
 		//affichage des erreurs
 		if (code == 1) {
-			std::cout << "Identifiant non reconnu" << std::endl;
+			std::cout << "Identifiant non reconnu" << std::endl << std::endl;
 		}else if (code == 2) {
 			std::cout << "Echec de l'authentification." << std::endl << std::endl;
 		}
@@ -225,5 +246,20 @@ User checkAuth() {
 	} while (code != 3);
 
 
-		return currentUser;
+	return currentUser;
+}
+
+//creation d'une voiture
+void carForm() {
+
+	std::string modele;
+	int year;
+	float price;
+
+	std::cout << "Nom du modèle : " << std::endl;
+	getline(std::cin, modele);
+	std::cout << "Année : " << std::endl;
+	std::cin >> year;
+	std::cout << "Prix : " << std::endl;
+	std::cin >> price;
 }
