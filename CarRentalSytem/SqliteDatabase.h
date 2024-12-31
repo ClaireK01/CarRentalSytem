@@ -15,8 +15,8 @@ static const char* dbname = "CarRental.db";
 static const char* dir = "C:\\sql_lite\\" + *dbname;
 int menu();
 static int createDatabase();
-static int executeQuery(std::string query = "");
-static Records selectQuery(std::string query = "");
+int executeQuery(std::string query = "");
+Records selectQuery(std::string query = "");
 static int callback(void* p_data, int argc, char** argv, char** azColName);
 
 #endif#pragma once

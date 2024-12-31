@@ -8,12 +8,12 @@
 #include "SqliteDatabase.h"
 
 
-//int main() {
-//
-//	menu();
-//
-//	return 0;
-//}
+int main() {
+
+	menu();
+
+	return 0;
+}
 
 int menu() {
 
@@ -87,13 +87,19 @@ static int createDatabase() {
 
 	sqlite3_close(DB);
 
-	std::cout << "Database created !" << std::endl << std::endl;
+	if (exit == SQLITE_OK) {
+		std::cout << "Database created !" << std::endl << std::endl;
+	}
+	else {
+		std::cout << "Couldn't create the database" << std::endl << std::endl;
+	}
+
 
 
 	return 0;
 };
 
-int static executeQuery(std::string query) {
+int executeQuery(std::string query) {
 
 	sqlite3* DB;
 	char* errorMessage;
@@ -126,7 +132,7 @@ int static executeQuery(std::string query) {
 	return 0;
 }
 
-static Records selectQuery(std::string query) {
+Records selectQuery(std::string query) {
 
 	sqlite3* DB;
 	int exit = 0;

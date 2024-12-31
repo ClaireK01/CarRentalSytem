@@ -104,15 +104,15 @@ int User::id = 0;
 static User cUser;
 //Faire une valeur static currentUser
 
-int main() {
-	User u1 ("Admin", "admin", 1);
-	User u2 ("User", "user", 2);
-
-	User u = checkAuth();
-	displayMenu(u);
-
-	return 0;
-}
+//int main() {
+//	User u1 ("Admin", "admin", 1);
+//	User u2 ("User", "user", 2);
+//
+//	User u = checkAuth();
+//	displayMenu(u);
+//
+//	return 0;
+//}
 
 void list() {
 
@@ -252,14 +252,26 @@ User checkAuth() {
 //creation d'une voiture
 void carForm() {
 
+	//std::string input;
 	std::string modele;
-	int year;
-	float price;
+	std::string year;
+	std::string price;
 
 	std::cout << "Nom du modèle : " << std::endl;
 	getline(std::cin, modele);
+	std::cout << std::endl << std::endl;
+
 	std::cout << "Année : " << std::endl;
 	std::cin >> year;
+	getline(std::cin, price);
+	std::cout << std::endl << std::endl;
+
 	std::cout << "Prix : " << std::endl;
-	std::cin >> price;
+	getline(std::cin, year);
+	std::cout << std::endl << std::endl;
+
+	std::string query = "INSERT INTO car(modele, price, year) VALUES(" + modele + ", " + price + ", " + year + ");";
+
+	executeQuery(query);
+
 }
