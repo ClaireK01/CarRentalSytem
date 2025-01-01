@@ -18,10 +18,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Downloads\sqlite-amalgamation-3470200\sqlite-amalgamation-3470200\sqlite3.c">
+    <ClCompile Include="Source.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
+    <ClCompile Include="..\..\..\..\Downloads\sqlite-amalgamation-3470200\sqlite-amalgamation-3470200\sqlite3.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

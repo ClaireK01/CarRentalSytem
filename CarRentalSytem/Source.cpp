@@ -8,12 +8,12 @@
 #include "SqliteDatabase.h"
 
 
-int main() {
-
-	menu();
-
-	return 0;
-}
+//int main() {
+//
+//	menu();
+//
+//	return 0;
+//}
 
 int menu() {
 

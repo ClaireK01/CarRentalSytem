@@ -12,7 +12,7 @@ using Record = std::vector<Cell>;
 using Records = std::vector<Record>;
 
 static const char* dbname = "CarRental.db";
-static const char* dir = "C:\\sql_lite\\" + *dbname;
+static const char* dir = "C:\\sql_lite\\CarRental.db";
 int menu();
 static int createDatabase();
 int executeQuery(std::string query = "");

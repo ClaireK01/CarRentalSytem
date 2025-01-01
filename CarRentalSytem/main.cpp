@@ -4,15 +4,14 @@
 #include <vector>
 #include <conio.h> 
 #include <exception>
+#include <sqlite3.h>
 #include "SqliteDatabase.h"
 
 
 // TODO : 
-// - finir mettre cUser en valeur static
-// - finir option delete - visible sur la page, mode delete si selectionner (selection puis suppression)
-// - enlever duplicata display options
 // - ajout et suppresion des voitures
 // - ajouter option deconnexion/retour 
+// - mettre pointeur la ou variable utilisé que dans scope (ex: creation voiture)
 
 class Car {
 	private:
@@ -92,11 +91,11 @@ class User {
 
 
 // attention a ne pas le mettre dans le header
-User checkAuth();
-int displayMenu(User u);
-void list();
+int checkAuth();
+int displayMenu();
 void displayOptions(std::vector<std::string> array);
-void displayMenuAdministration();
+void list();
+int carForm();
 // les variable static doivent etre defini en dehors du code OU initiliser avec le keyword inline
 std::vector<User*> User::list;
 int Car::id = 0;
@@ -104,21 +103,39 @@ int User::id = 0;
 static User cUser;
 //Faire une valeur static currentUser
 
-//int main() {
-//	User u1 ("Admin", "admin", 1);
-//	User u2 ("User", "user", 2);
-//
-//	User u = checkAuth();
-//	displayMenu(u);
-//
-//	return 0;
-//}
+int main() {
+	User u1 ("Admin", "admin", 1);
+	User u2 ("User", "user", 2);
+
+	if (checkAuth() == 0) {
+		displayMenu();
+	};
+
+	return 0;
+}
 
 void list() {
 
 	system("cls");
 	std::cout << "Bonjour, Voici les modeles disponibles : " << std::endl << std::endl;
-	int i = 1;
+	
+	std::string query = "SELECT * FROM car;";
+
+	Records records = selectQuery(query);
+	for (int i = 0; i < records.size(); i++){
+		std::cout << "----------------------------------------------------------------------------------------" << std::endl;
+		std::cout << "| " << i + 1 << " | ";
+		for (auto& line : records[i]) {
+			for (int n = 0; n < line.size(); n++)
+			{
+				if (n == 1) {
+					std::cout << " " << line[n] << " "; //remove cell des record
+				}
+			}
+			std::cout << "/";
+		}
+		std::cout << std::endl;
+	}
 
 	if (cUser.getType() == 1) {
 		std::cout << std::endl << std::endl;
@@ -127,13 +144,13 @@ void list() {
 	}
 }
 
-int displayMenu(User u) {
+int displayMenu() {
 	std::string input;
 	int choice;
 	bool next = false;
 	std::vector<std::string> options = { "Voir les voitures" };
-	if (u.getType() == 1) {
-		options.push_back("Administration");
+	if (cUser.getType() == 1) {
+		options.push_back("Ajouter une voiture");
 	}
 
 	do {
@@ -143,7 +160,7 @@ int displayMenu(User u) {
 		std::getline(std::cin, input);
 		std::stringstream(input) >> choice;
 
-		if ((choice < options.size() || choice > options.size() || (choice == 2 && u.getType() == 2) ) && !(choice == 999 && u.getType() == 1) ) {
+		if ((choice < 1 || choice > options.size() || (choice == 2 && cUser.getType() == 2) ) && !(choice == 999 && cUser.getType() == 1) ) {
 			std::cout << "Choix non valide.";
 		} else {
 			next = true;
@@ -154,43 +171,20 @@ int displayMenu(User u) {
 	if (choice == 1) {
 		list();
 	}else if (choice == 2) {
-		displayMenuAdministration();
-		/*std::cout << "Administration";*/
+		int ret = carForm();
+		if (ret == SQLITE_OK) {
+			std::cout << "Voiture créer avec succès ! Presser n'importe quel touche pour continuer..." << std::endl;
+			std::cin.ignore();
+		}
+		else {
+			std::cout << "Echec de la creation" << std::endl;
+		}
 	}
 	else if (choice == 999) {
 		menu();
 	}
 
-
 	return 0;
-
-}
-
-void displayMenuAdministration() {
-	std::string input;
-	int choice;
-	bool next = false;
-	std::vector<std::string> options = { "Ajouter une voiture", "Supprimer une voiture" };
-
-	do {
-		system("cls");
-		displayOptions(options);
-		std::getline(std::cin, input);
-		std::stringstream(input) >> choice;
-
-		if (choice < options.size() || choice > options.size()) {
-			std::cout << "Choix non valide.";
-		}else {
-			next = true;
-		}
-	} while (!next);
-
-
-	if (choice == 1) {
-		//lancer formulaire
-	}else if(choice == 2) {
-		list();
-	}
 
 }
 
@@ -205,10 +199,9 @@ void displayOptions(std::vector<std::string> array) {
 
 }
 
-User checkAuth() {
+int checkAuth() {
 
 	std::string username, password;
-	User currentUser;
 	int code = 0;
 
 	do {
@@ -225,19 +218,19 @@ User checkAuth() {
 
 		for (User * u : User::list) {
 			if ((*u).getUsername() == username) {
-				currentUser = *u;
+				cUser = *u;
 			}
 		}
 
-		if (currentUser.getType() != 0) {
+		if (cUser.getType() != 0) {
 			code = 2;
 			std::cout << "Password : " << std::endl;
 			std::cin >> password;
 
-			if (currentUser.checkPassword(password)) {
+			if (cUser.checkPassword(password)) {
 				code = 3;
 			}else {
-				currentUser.reset();
+				cUser.reset();
 			}
 		} else {
 			code = 1;
@@ -245,33 +238,35 @@ User checkAuth() {
 
 	} while (code != 3);
 
+	return 0;
 
-	return currentUser;
 }
 
 //creation d'une voiture
-void carForm() {
+int carForm() {
 
-	//std::string input;
+	system("cls");
+	std::cout << "------- Creation d'une voiture -------" << std::endl<<std::endl;
+	std::string input;
 	std::string modele;
-	std::string year;
-	std::string price;
+	int year;
+	float price;
 
-	std::cout << "Nom du modèle : " << std::endl;
+	std::cout << "Nom du modele : " << std::endl;
 	getline(std::cin, modele);
 	std::cout << std::endl << std::endl;
 
 	std::cout << "Année : " << std::endl;
-	std::cin >> year;
-	getline(std::cin, price);
+	getline(std::cin, input);
+	std::stringstream(input) >> year;
 	std::cout << std::endl << std::endl;
 
 	std::cout << "Prix : " << std::endl;
-	getline(std::cin, year);
+	getline(std::cin, input);
+	std::stringstream(input) >> price;
 	std::cout << std::endl << std::endl;
 
-	std::string query = "INSERT INTO car(modele, price, year) VALUES(" + modele + ", " + price + ", " + year + ");";
+	std::string query = "INSERT INTO CAR (modele, price, cyear) VALUES ('" + modele + "', '" + std::to_string(price) + "', '" + std::to_string(year) + "') ;";
 
-	executeQuery(query);
-
+	return executeQuery(query);
 }
