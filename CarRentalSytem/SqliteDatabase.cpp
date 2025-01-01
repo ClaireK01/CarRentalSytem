@@ -170,24 +170,13 @@ Records selectQuery(std::string query) {
 
 
 static int callback(void* p_data, int argc, char** argv, char** azColName) {
-	//Le callback est appeller pour chaque ligne de resultat
-
-
-	//je crée mon propre tableau de string pour pouvoir afficher le nom de la colone egalement
-	std::vector<Cell> array;
-	for (int i = 0; i < argc; i++)
-	{
-		array.push_back({ azColName[i] , argv[i] });
-	}
-
 	//p_data, qui rappellont le est le tableau passer un 4eme argument, est recuperer, caster en Record *
 	Records* records = static_cast<Records*>(p_data);
 
 	try {
 		//puis nous pushons les nouvelles donnée dans le tableau
-		records->emplace_back(array);
-		// anciennement :
-		//records->emplace_back(argv, argv + argc);
+		//records->emplace_back(argv);
+		records->emplace_back(argv, argv + argc);
 	}
 	catch (std::exception& e) {
 		std::cout << e.what();

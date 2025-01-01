@@ -7,8 +7,7 @@
 
 //Record : tableau de string (contenant les donnes), Records : tableau de tableau (1 tableaux = 1 ligne de resultat) creer . 
 // Note : j'ai rajouter cell, pour faire de "Record" un tableau qui affichera la donnée ET le nom de la colonne, plutot que juste un tableau de string
-using Cell = std::vector<std::string>;
-using Record = std::vector<Cell>;
+using Record = std::vector<std::string>;
 using Records = std::vector<Record>;
 
 static const char* dbname = "CarRental.db";
