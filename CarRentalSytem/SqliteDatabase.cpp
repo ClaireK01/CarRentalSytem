@@ -20,7 +20,6 @@ int menu() {
 	std::vector < std::string> opt = { "Create database : (" + static_cast<std::string>(dbname) + ")" , "Insert, update or delete", "Select from database", "Quit" };
 	int choice;
 	bool quit = false;
-	int code = 0;
 	sqlite3* DB;
 
 	do {
@@ -62,7 +61,6 @@ int menu() {
 			}
 			else {
 				quit = true;
-				code = 1;
 			}
 
 		}
@@ -77,7 +75,7 @@ int menu() {
 
 	} while (!quit);
 
-	return code;
+	return 0;
 }
 
 static int createDatabase() {
