@@ -131,7 +131,7 @@ int executeQuery(std::string query) {
 	}
 
 
-	return 1;
+	return 0;
 }
 
 Records selectQuery(std::string query) {
