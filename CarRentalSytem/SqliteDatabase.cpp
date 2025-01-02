@@ -20,6 +20,7 @@ int menu() {
 	std::vector < std::string> opt = { "Create database : (" + static_cast<std::string>(dbname) + ")" , "Insert, update or delete", "Select from database", "Quit" };
 	int choice;
 	bool quit = false;
+	int code = 0;
 	sqlite3* DB;
 
 	do {
@@ -61,6 +62,7 @@ int menu() {
 			}
 			else {
 				quit = true;
+				code = 1;
 			}
 
 		}
@@ -75,7 +77,7 @@ int menu() {
 
 	} while (!quit);
 
-	return 0;
+	return code;
 }
 
 static int createDatabase() {
@@ -120,7 +122,7 @@ int executeQuery(std::string query) {
 			sqlite3_free(errorMessage);
 		}
 		else {
-			std::cout << "Request succesfuly executed";
+			std::cout << "Le changement a bien été enregistrer";
 			sqlite3_close(DB);
 		}
 	}
@@ -129,7 +131,7 @@ int executeQuery(std::string query) {
 	}
 
 
-	return 0;
+	return 1;
 }
 
 Records selectQuery(std::string query) {

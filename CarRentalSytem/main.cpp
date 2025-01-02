@@ -38,8 +38,7 @@ int main() {
 
 
 int displayMenu() {
-	bool next = false;
-
+	
 	do {
 		system("cls");
 		displayOptions(mainMenu);
@@ -61,9 +60,6 @@ void displayOptions(Menu menu) {
 
 int carList() {
 
-	bool ret;
-	bool next = false;
-
 	do {
 		system("cls");
 		std::cout << "Bonjour, Voici les modeles disponibles : " << std::endl << std::endl;
@@ -79,6 +75,7 @@ int carList() {
 			}
 			std::cout << std::endl;
 		}
+		std::cout << "------------------------------------------------------" << std::endl << std::endl;
 
 		displayOptions(carListMenu);
 
@@ -114,7 +111,12 @@ int carForm() {
 
 	std::string query = "INSERT INTO CAR (modele, price, cyear) VALUES ('" + modele + "', '" + std::to_string(price) + "', '" + std::to_string(year) + "') ;";
 
-	return executeQuery(query);
+	if (executeQuery(query) == SQLITE_OK) {
+		std::cout << "Voiture ajoute ! Appuyer sur n'importe quelle touche pour continer...";
+		std::cin.ignore();
+	}
+
+	return 0;
 }
 
 

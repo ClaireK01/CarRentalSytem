@@ -20,14 +20,15 @@ struct Menu {
 
 static MenuOption listCar("Voir les voiture", carList, "S", 1);
 static MenuOption addCar("Ajouter une voiture", carForm, "A", 2);
-static MenuOption back("Retour", displayMenu, "R", 1);
+static MenuOption back("Retour", NULL, "R", 1);
+static MenuOption leave("Quitter", NULL, "Q", 1);
 static MenuOption admin("Admin", menu, "999", 2);
 
-static Menu mainMenu({ listCar, addCar, admin});
+
+static Menu mainMenu({listCar, addCar, leave, admin});
 static Menu carListMenu({addCar, back});
 
 bool listenAndRedirect(Menu m);
 bool redirect(std::string choice, Menu m);
 
 #endif
-#pragma once
