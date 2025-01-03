@@ -17,6 +17,7 @@
 int checkAuth();
 int carList();
 int carForm();
+int carDelete();
 int displayMenu();
 
 #endif

@@ -7,14 +7,14 @@
 #include "InputController.h"
 
 
-bool listenAndRedirect(Menu menu) {
+bool listenAndRedirect(Menu menu, User cUser) {
 	std::string input;
 	getline(std::cin, input);
 
-	return redirect(input, menu);
+	return redirect(input, menu, cUser);
 }
 
-bool redirect(std::string choice, Menu menu) {
+bool redirect(std::string choice, Menu menu, User cUser) {
 
 	bool stop = false;
 
@@ -22,7 +22,11 @@ bool redirect(std::string choice, Menu menu) {
 	{
 		if (menu.optionList[i].selection == choice) {
 			if (menu.optionList[i].func != NULL) {
-				menu.optionList[i].func();
+
+				if (menu.optionList[i].type <= cUser.getType()) {
+					menu.optionList[i].func();
+				}
+
 			} else {
 				stop = true;
 			}

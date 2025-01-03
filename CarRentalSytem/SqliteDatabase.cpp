@@ -120,7 +120,7 @@ int executeQuery(std::string query) {
 			sqlite3_free(errorMessage);
 		}
 		else {
-			std::cout << "Le changement a bien été enregistrer";
+			std::cout << "Le changement a bien ete enregistrer ! ";
 			sqlite3_close(DB);
 		}
 	}

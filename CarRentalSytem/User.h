@@ -28,6 +28,9 @@ public:
 	std::string getUsername() { return username; }
 	int isConnected() { return connected; }
 	void setConnected(bool& c) { connected = c; }
+	void setUsername(std::string u) { username = u; }
+	void setPassword(std::string p) { password = p; }
+	void setType(int t) { type = t; }
 	int getType() { return type; }
 	void reset() {
 		username = "";
