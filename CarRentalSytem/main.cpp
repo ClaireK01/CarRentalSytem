@@ -17,10 +17,7 @@
 // - rendre cUser global si possible (rendre accessible pour inputController egalement)
 
 void displayOptions(Menu menu);
-int User::id = 0;
-std::vector<User*> User::list;
 static User cUser;
-
 
 int main() {
 
