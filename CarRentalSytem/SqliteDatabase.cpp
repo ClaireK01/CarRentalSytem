@@ -170,7 +170,7 @@ Records selectQuery(std::string query) {
 
 
 static int callback(void* p_data, int argc, char** argv, char** azColName) {
-	//p_data, qui rappellont le est le tableau passer un 4eme argument, est recuperer, caster en Record *
+	//p_data, qui est le tableau passer un 4eme argument, est recuperer, caster en Record *
 	Records* records = static_cast<Records*>(p_data);
 
 	try {
