@@ -1,20 +1,20 @@
 FR :
 
-<h2>Ceci est un projet système de location de voiture.</h2>
+<h2>Ceci est un projet systÃ¨me de location de voiture.</h2>
 
 > Utilisation :
  
-A partir de ce projet vous pourrez créer, modifier ou supprimer des voitures d'un système d'administration.
+A partir de ce projet vous pourrez crÃ©er, modifier ou supprimer des voitures d'un systÃ¨me d'administration.
 
 > BDD
 
-Le fichier situé dans sql_lite/CarRental.db est une base de données avec les utilisateurs pré-enregistrés. 
+Le fichier situÃ© dans sql_lite/CarRental.db est une base de donnÃ©es avec des utilisateurs et voitures prÃ©-enregistrÃ©s. 
 
 Il vous suffira donc de :
 - Soit le copier-coller dans le chemin suivant C:\sql_lite\\arRental.db pour pouvoir l'utiliser.
-- Ou bien placer ce fichier dans le chemin de votre choix et corriger le chemin d'accès inscrit dans le fichier SqliteDatabase.h (variable "dir" en dessous de "dbname").
+- Ou bien placer ce fichier dans le chemin de votre choix et corriger le chemin d'accÃ¨s inscrit dans le fichier SqliteDatabase.h (variable "dir" en dessous de "dbname").
 
-Un accès direct à la BDD SQLLite est disponible en entrant l'option 999 **une fois connecter en tant qu'administrateur**. A partir de cette option, des commandes sql peuvent être lû et exécuter directement depuis l'administration.
+Un accÃ¨s direct Ã  la BDD SQLLite est disponible en entrant l'option 999 **une fois connecter en tant qu'administrateur**. A partir de cette option, des commandes sql peuvent Ãªtre lÃ» et exÃ©cuter directement depuis l'administration.
 
 > Connexion
 
@@ -23,7 +23,7 @@ Les identifiants de connexion son les suivant :
 - username : Admin mdp : admin
 -  username : User : mdp : user
 
-Le niveau de privilège n'est pas le même pour chaque utilisateur (user : niveau 1, admin : niveau 2) ; les options disponibles variront donc en fonction du choix.
+Le niveau de privilÃ¨ge n'est pas le mÃªme pour chaque utilisateur (user : niveau 1, admin : niveau 2) ; les options disponibles variront donc en fonction du choix.
 
 
 EN :
@@ -36,7 +36,7 @@ In this project, you will be able to view, create, modify, or delete cars in an 
 
 > Database
 
-The file located at sql_lite/CarRental.db is a database with pre-registered users. 
+The file located at sql_lite/CarRental.db is a database with pre-registered users and cars. 
 
 In order to use it, all you need to do is :
 - Either copy and paste the file at the following path: C:\sql_lite\CarRental.db.
