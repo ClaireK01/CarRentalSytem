@@ -18,7 +18,7 @@ Un accès direct à la BDD SQLLite est disponible en entrant l'option 999 **une fo
 
 > Connexion
 
-Les identifiants de connexion son les suivant : 
+Les identifiants de connexion sont les suivant : 
 
 - username : Admin mdp : admin
 -  username : User : mdp : user
