@@ -16,6 +16,9 @@
 // - mettre pointeur la ou variable utilisé que dans scope (ex: creation voiture)
 // - rendre cUser global si possible (rendre accessible pour inputController egalement)
 
+
+// Identifiants : Admin, admin ; User, user
+
 void displayOptions(Menu menu);
 static User cUser;
 

@@ -27,12 +27,12 @@ static MenuOption deleteCar("Supprimer une voiture", carDelete, "D", 2);
 static MenuOption back("Retour", NULL, "R", 1);
 static MenuOption leave("Quitter", NULL, "Q", 0);
 static MenuOption unlog("Se deconnecter", NULL, "U", 1);
-static MenuOption admin("Gestion BDD", menu, "999", 2);
+static MenuOption admin("Gestion BDD", menu, "999", 2, true);
 static MenuOption connexion("Se connecter", checkAuth, "L", 0);
 
 
-static Menu connexionMenu({connexion, leave, admin});
-static Menu mainMenu({listCar, addCar, deleteCar, unlog});
+static Menu connexionMenu({connexion, leave});
+static Menu mainMenu({listCar, addCar, deleteCar, unlog, admin});
 static Menu carListMenu({addCar, deleteCar, back});
 
 bool listenAndRedirect(Menu m, User cUser);
