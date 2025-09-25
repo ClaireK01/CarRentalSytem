@@ -12,13 +12,13 @@ Le fichier situé dans sql_lite/CarRental.db est une base de données avec des u
 
 Il vous suffira donc de :
 - Soit le copier-coller dans le chemin suivant C:\sql_lite\\arRental.db pour pouvoir l'utiliser.
-- Ou bien placer ce fichier dans le chemin de votre choix et corriger le chemin d'accès inscrit dans le fichier SqliteDatabase.h (variable "dir" en dessous de "dbname").
+- Ou bien placer ce fichier dans le chemin de votre choix et corriger le chemin d'accès inscrit dans le fichier SqliteDatabase.h (variable "dir").
 
 Un accès direct à la BDD SQLLite est disponible en entrant l'option 999 **une fois connecter en tant qu'administrateur**. A partir de cette option, des commandes sql peuvent être lû et exécuter directement depuis l'administration.
 
 > Connexion
 
-Les identifiants de connexion sont les suivant : 
+Les identifiants de connexion sont les suivants : 
 
 - username : Admin mdp : admin
 -  username : User : mdp : user
