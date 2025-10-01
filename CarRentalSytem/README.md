@@ -1,6 +1,6 @@
 FR :
 
-<h2>Ceci est un système de location de voiture.</h2>
+<h2>Système de location de voiture.</h2>
 
 > Utilisation :
  
@@ -28,7 +28,7 @@ Le niveau de privilège n'est pas le même pour chaque utilisateur (user : nivea
 
 EN :
 
-<h2>This project is a car rental system.</h2>
+<h2>Car rental system.</h2>
 
 > Usage:
 
