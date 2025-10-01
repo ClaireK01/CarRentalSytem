@@ -1,6 +1,6 @@
 FR :
 
-<h2>Ceci est un projet système de location de voiture.</h2>
+<h2>Ceci est un système de location de voiture.</h2>
 
 > Utilisation :
  
